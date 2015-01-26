@@ -34,8 +34,6 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        SqlLitePRAGMA();
-        SqlTeste2();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

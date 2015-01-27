@@ -57,12 +57,13 @@ var app = {
                 
                 navigator.vibrate([1000, 1000, 3000, 1000, 5000]);
                 
-                alert("We got a barcode\n" + 
-                "Result: " + result.text + "\n" + 
-                "Format: " + result.format + "\n" + 
-                "Cancelled: " + result.cancelled);  
+                //alert("We got a barcode\n" + 
+                //    "Result: " + result.text + "\n" + 
+                //    "Format: " + result.format + "\n" + 
+                //    "Cancelled: " + result.cancelled);  
 
                 $("#txtCodigoLido").val(result.text);
+                ProcurarProduto(result.text);
 
                console.log("Scanner result: \n" +
                     "text: " + result.text + "\n" +
@@ -170,4 +171,44 @@ function SqlTeste2() {
     catch(err) {
         console.log(err);
     }
+}
+
+function PesquisarProduto() {
+    ProcurarProduto($('#txtCodigoLido').val());
+}
+
+function ProcurarProduto(codigoBarra) {
+
+    var parametro = {};
+
+    parametro.codigoBarra = codigoBarra;
+
+    //$.ajax({
+    //    url: "http://10.30.0.83/CDEMobile/api/Produto",
+        
+    //    type: 'GET',
+    //    xhrFields: {
+    //        withCredentials: true
+    //    },
+    //    success: function (resp) {
+    //        alert(resp);
+    //    },
+    //    error: function (e) {
+    //        alert('Error: ' + e);
+    //    }
+    //});
+
+    $.getJSON("http://10.30.0.83/CDEMobile/api/Produto", parametro, function (data) {
+        if (data) {
+            $("#txtDescricaoProduto").val(data.Produto.Descricao + ' ' + data.Cor.Descricao + ' ' + data.Especificacao.Descricao);
+        } else {
+            alert("Produto não encontrado.");
+        }
+
+    }).fail(function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.responseText);
+    }).error(function(msg) {
+        alert(msg);
+    });
+
 }

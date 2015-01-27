@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
 
@@ -54,8 +54,14 @@
                     Ler Código de Barras
                     <input type="button" data-enhanced="true" value="Input value" onclick="app.scan();">
                 </div>
-                <input type="text" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars" id="txtCodigoLido" name="txtCodigoLido">
-                <br/><br/>
+                <input type="text" class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars" id="txtCodigoLido" name="txtCodigoLido">
+                <input type="text" class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars" id="txtDescricaoProduto" name="txtDescricaoProduto">
+                <br/>
+                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
+                    Procurar produto
+                    <input type="button" data-enhanced="true" value="Input value" onclick="PesquisarProduto();">
+                </div>
+                <br/>
                 <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
                     Chamando Banco 1
                     <input type="button" data-enhanced="true" value="Input value" onclick="SqlLitePRAGMA();">

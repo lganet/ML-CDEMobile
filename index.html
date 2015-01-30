@@ -27,127 +27,110 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
         
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryMobile/jquery.mobile-1.4.5.css" />
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="barcodescanner.js"></script>
         <script type="text/javascript" charset="utf-8" src="SQLitePlugin.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery.mobile-1.4.5.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/views.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        
+        <style type="text/css">           
+            #popupContagemCDE-popup{
+                 width: 80%;
+                 left: 10%;
+                 right: 10%
+            }
+        </style>
+
         <title>Leitor de Código de Barras</title>
+        
     </head>
     <body>
-
+        
+        <!-- Página -->
         <div data-role="page" data-theme="a" id="page1">
-            <div data-role="header" position="fixed" data-theme="a" id="page1header">
-                <h2>Página - 1 - Beta 0.3</h2>
-            </div>    
             
-            <div class="ui-content" data-role="content" data-theme="a" id="page1Content">
-                <img id="picTeste" width="300px" heigth="300px"></img>
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Camera
-                    <input type="button" data-enhanced="true" value="Input value" onclick="app.takePicture();">
-                </div>
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Ler Código de Barras
-                    <input type="button" data-enhanced="true" value="Input value" onclick="app.scan();">
-                </div>
-                <input type="text" class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars" id="txtCodigoLido" name="txtCodigoLido">
-                <input type="text" class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-bars" id="txtDescricaoProduto" name="txtDescricaoProduto">
-                <br/>
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Procurar produto
-                    <input type="button" data-enhanced="true" value="Input value" onclick="PesquisarProduto();">
-                </div>
-                <br/>
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Chamando Banco 1
-                    <input type="button" data-enhanced="true" value="Input value" onclick="SqlLitePRAGMA();">
-                </div>
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Chamando Banco 2
-                    <input type="button" data-enhanced="true" value="Input value" onclick="SqlTeste2();">
-                </div>
-
-                <br/><br/>
-                <label for="search-1">Search:</label>
-                 <input type="search" name="search-1" id="search-1" value="">
-
-                <a href="#popupBasic" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">asasasaasc Popup</a>
-                <div data-role="popup" id="popupBasic">
-                <p>This is a completely basic popup, no options set.</p>
-                </div>
-
-                <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a>
-                <div id="custom-border-radius">
-                    <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a>
-                </div>
-
-                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                    <legend>Horizontal, mini sized:</legend>
-                    <input name="radio-choice-h-6" id="radio-choice-h-6a" value="on" checked="checked" type="radio">
-                    <label for="radio-choice-h-6a">One</label>
-                    <input name="radio-choice-h-6" id="radio-choice-h-6b" value="off" type="radio">
-                    <label for="radio-choice-h-6b">Two</label>
-                    <input name="radio-choice-h-6" id="radio-choice-h-6c" value="other" type="radio">
-                    <label for="radio-choice-h-6c">Three</label>
-                </fieldset>
-
-                <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-left ui-btn-a">Actions...</a>
-                <div data-role="popup" id="popupMenu" data-theme="b">
-                        <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                            <li data-role="list-divider">Choose an action</li>
-                            <li><a href="#">View details</a></li>
-                            <li><a href="#">Edit</a></li>
-                            <li><a href="#">Disable</a></li>
-                            <li><a href="#">Delete</a></li>
-                        </ul>
-                </div>
-
-                <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Delete page...</a>
-                <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-                    <div data-role="header" data-theme="a">
-                    <h1>Delete Page?</h1>
-                    </div>
-                    <div role="main" class="ui-content">
-                        <h3 class="ui-title">Are you sure you want to delete this page?</h3>
-                    <p>This action cannot be undone.</p>
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Delete</a>
-                    </div>
-                </div>
-
-                <p><a href="#page2">Page 2</a></p> 
-            </div>
-
-            <div data-role="footer" position="fixed" data-theme="a" id="page1header">
-                <h3>LGANET (C) 2015</h3>
-            </div>   
-        </div>
-
-        <div data-role="page" data-theme="c" id="page2">
-            <div data-role="header" data-theme="c" id="page2header">
-                <h2>Página - 2</h2>
-            </div>    
+            <!-- Menu da Esquerda -->
             
-            <div class="ui-content" data-role="content" data-theme="c" id="page2Content">
+            <div data-role="panel" id="panelMenu" data-position-fixed="true" data-position="left" data-display="overlay" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-closed">
 
-                <div class="ui-input-btn ui-btn ui-corner-all ui-shadow">
-                    Teste
-                    <input type="button" data-enhanced="true" value="Input value" onclick="alert('a');">
-                </div>
-                <br/><br/><br/><br/>
-                <p><a href="#page1">Page 1</a></p> 
+                <div class="ui-panel-inner">
+                    <h3>Opções</h3>                                     
+                    <a href="#demo-links" id="btnContagem" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-edit ui-btn-icon-left" style="text-align: left;">Iniciar Contagem CDE</a>
+                    <a href="#demo-links" id="btnConfiguracao" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-gear ui-btn-icon-left" style="text-align: left;">Configurações</a>
+                </div>
             </div>
+            <!-- Menu da Esquerda -->
+            
+            <!-- Cabeçalho -->
+            <div data-role="header" data-position="fixed" data-theme="a" id="page1header">
+                <h1>CDE - Mobile</h1>
+                <a href="#panelMenu" data-icon="bars" data-iconpos="notext" id="btnMenu">Menu</a>
+                <a href="#nada" data-icon="home" data-iconpos="notext" id="btnHome">Home</a>
+            </div>    
+            <!-- Cabeçalho -->
+            
+            <!-- Corpo -->
+            <!-- AS VIEWS SÂO INJETADAS DENTRO DA VIEW CONTENT -->
+            <div class="ui-content" data-role="content" data-fullscreen="true" data-theme="a" id="page1Content">
+                
+            </div>
+            <!-- AS VIEWS SÂO INJETADAS DENTRO DA VIEW CONTENT -->
+            <!-- CORPO -->
+            
+            <!-- Rodapé -->           
+            <div data-role="footer" data-theme="a" data-position="fixed" id="page1footer">
+                
+            </div>
+            <!-- Rodapé -->
+            
+            <!-- Popup para contagem de produtos -->
+            <div data-role="popup" id="popupContagemCDE" data-theme="a">
+                <form>
+                    <div style="padding:5px 5px;">
+                        
+                        <div class="ui-grid-a ui-responsive ui-corner-all">
+                            <div class="ui-block-b"><input type="number" data-clear-btn="false" name="QuantidadeItens" pattern="[0-9]*" id="QuantidadeItens" value="0" style="font-size: 30px;text-align: center;"></div>
+                            <div class="ui-block-b"><a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-middle" style="padding: 50px;font-size: 50px;">+</a></div>
+                        </div>
+                        
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a ui-body ui-body-a ui-corner-all">
+                                <div class="ui-body ui-body-a ui-corner-all" style="font-size: 12px;">
+                                    <span style="color: red;"><b>CONTANDO:</b></span> Televisor LG 4kds ssdsd sds ds dsd sdw ewe we we wewe wewe we
 
-            <div data-role="footer" position="fixed" data-theme="c" id="page2header">
-                <h3>LGANET (C) 2015</h3>
-            </div>   
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="ui-grid-a">
+                            <div class="ui-block-a"><a href="#" class="ui-btn ui-shadow ui-corner-all ui-mini ui-icon-minus ui-btn-icon-left">Retirar</a></div>
+                            <div class="ui-block-b"><a href="#" class="ui-btn ui-shadow ui-corner-all ui-mini ui-icon-action ui-btn-icon-left">Novo</a></div>
+                        </div>
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a ui-corner-all"><a href="#" class="ui-btn ui-shadow ui-corner-all ui-mini ui-icon-power ui-btn-icon-left ui-btn-b">Finalizar</a></div>
+                        </div>
+                        
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a ui-body ui-body-a ui-corner-all">
+                                <div class="ui-body ui-body-a ui-corner-all" style="font-size: 10px;">
+                                    <b>Ultimo contado:</b> Televisor LG 4kds ssdsd sds ds dsd sdw ewe we we wewe wewe we
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- Popup para contagem de produtos -->
 
         </div>
+        <!-- Página -->
 
-    </body>
+</body>
 </html>

@@ -1,0 +1,19 @@
+﻿<script type="text/javascript" >
+
+    $("#btnSalvarConfiguracao").click(function () {
+        $(CONTEUDO.CORPO.idJQ).trigger("Salvar");
+        $(CONTEUDO.CORPO.idJQ).off("Salvar");
+    });
+
+    $("#btnCancelarConfiguracao").click(function () {
+        $(CONTEUDO.CORPO.idJQ).trigger("Cancelar");
+        $(CONTEUDO.CORPO.idJQ).off("Cancelar");
+    });
+</script>
+
+<div data-role="navbar">
+    <ul>
+        <li><a href="#" id="btnSalvarConfiguracao" data-icon="recycle">Salvar</a></li>
+        <li><a href="#" id="btnCancelarConfiguracao" data-icon="back">Cancelar</a></li>
+    </ul>
+</div>

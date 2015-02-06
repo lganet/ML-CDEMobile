@@ -1,19 +1,22 @@
 ﻿<script type="text/javascript" >
 
-    $("#btnSalvarConfiguracao").click(function () {
-        $(CONTEUDO.CORPO.idJQ).trigger("Salvar");
-        $(CONTEUDO.CORPO.idJQ).off("Salvar");
+    $("#btnSalvarConfiguracao").click(function (e) {
+        //$(CONTEUDO.CORPO.idJQ).off("Salvar");
+        SalvarConfiguracao();
     });
 
-    $("#btnCancelarConfiguracao").click(function () {
-        $(CONTEUDO.CORPO.idJQ).trigger("Cancelar");
-        $(CONTEUDO.CORPO.idJQ).off("Cancelar");
+    $("#btnCancelarConfiguracao").click(function (e) {
+        CancelarConfiguracao();
     });
 </script>
 
 <div data-role="navbar">
     <ul>
-        <li><a href="#" id="btnSalvarConfiguracao" data-icon="recycle">Salvar</a></li>
-        <li><a href="#" id="btnCancelarConfiguracao" data-icon="back">Cancelar</a></li>
+        <li>
+            <button id="btnSalvarConfiguracao" data-icon="recycle">Salvar</button>
+        </li>
+        <li>
+            <button id="btnCancelarConfiguracao" data-icon="back">Cancelar</button>
+        </li>
     </ul>
 </div>

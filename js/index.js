@@ -1,5 +1,3 @@
-var cdeConfiguracoes = window.localStorage.getItem("cdeConfiguracoes");
-
 function scan() {
     console.log('scanning');
 
@@ -137,7 +135,7 @@ function ProcurarProduto(codigoBarra) {
 
     parametro.codigoBarra = codigoBarra;
 
-    $.getJSON("http://10.30.0.83/CDEMobile/api/Produto", parametro, function (data) {
+    $.getJSON(CONFIGURACOES.URLServico + "Produto", parametro, function (data) {
         if (data) {
             $("#txtDescricaoProduto").val(data.Produto.Descricao + ' ' + data.Cor.Descricao + ' ' + data.Especificacao.Descricao);
         } else {
@@ -152,22 +150,43 @@ function ProcurarProduto(codigoBarra) {
 
 }
 
-$(document).on("pageinit", "#page1", function (event) {
+$(document).on("deviceready", function(){
     /* Adicionando chamada aos atalhos */
-    $("#btnConfiguracao").on("click", function () { ChamarConfiguracaoes(); });
-    $("#btnHome").on("click", function () { AbrirPrincipal(); });
-    AbrirPrincipal();
+
+/*  ExecutarFuncao(function(){
+    var model = device.model;
+    console.log(model);
+  }, "Modelo33333:");*/
+
+});
+
+
+
+$(document).on("pageinit", "#page1", function (event) {
+    
+  $(document).bind("ajaxSend", function () {
+    ExibirLoading('a', 'Carregando...');
+      
+  }).bind("ajaxComplete", function () {
+    EsconderLoading();
+  }).bind("ajaxError", function (data) {
+    EsconderLoading();
+  });
+
+
+  $("#btnConfiguracao").on("click", function () { ChamarConfiguracaoes(); });
+  $("#btnHome").on("click", function () { AbrirPrincipal(); });
+  AbrirPrincipal();
 });
 
 
 function AbrirPrincipal() {
-    AbrirView(VISOES.PRINCIPAL);
+  AbrirView(VISOES.PRINCIPAL);
 }
 
 function ChamarConfiguracaoes() {
     AbrirView(VISOES.CONFIGURACAO);
 }
-
 
 //function AbrirMenu(e) {
 //    e.preventDefault();

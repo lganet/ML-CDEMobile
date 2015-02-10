@@ -34,6 +34,7 @@
         <script type="text/javascript" charset="utf-8" src="SQLitePlugin.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery.mobile-1.4.5.js"></script>
+        
         <script type="text/javascript" src="js/config.js"></script>
         <!--<script type="text/javascript" src="js/iscroll.js"></script>-->
         <script type="text/javascript" src="js/common.js"></script>
@@ -85,19 +86,13 @@
 
                 <div class="ui-panel-inner">
                     <h3>Opções</h3>                                     
-                    <a href="#demo-links" id="btnContagem" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-edit ui-btn-icon-left" style="text-align: left;">Iniciar Contagem CDE</a>
-                    <a href="#demo-links" id="btnConfiguracao" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-gear ui-btn-icon-left" style="text-align: left;">Configurações</a>
+                    <a href="#" id="btnMenuContagem" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-edit ui-btn-icon-left ui-disabled" style="text-align: left;">Iniciar Contagem CDE</a>
+                    <a href="#" id="btnMenuConfiguracao" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-gear ui-btn-icon-left" style="text-align: left;">Configurações</a>
+                    <a href="#" id="btnMenuValidarAcesso" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-eye ui-btn-icon-left" style="text-align: left;display:none;">Validar Acesso</a>
                 </div>
             </div>
             <!-- Menu da Esquerda -->
             
-            <!-- Popup de mensagens -->
-            <div data-role="popup" id="divAlert" class="ui-content" style="max-width:600px;" data-dismissible="false" data-overlay-theme="a" >
-                <a href="#" id="divAlertBtnCloseMessage" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <p id="divAlertMessage">.</p>
-            </div>
-            <!-- Popup de mensagens -->
-
             <!-- Login -->
             <div data-role="popup" id="divLogin" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
 
@@ -112,17 +107,24 @@
                         <input type="text" name="divLoginUsuario" id="divLoginUsuario" value="" placeholder="usuário" data-theme="a">
                         <label for="divLoginUsuario" class="ui-hidden-accessible">Senha:</label>
                         <input type="password" name="divLoginSenha" id="divLoginSenha" value="" placeholder="senha" data-theme="a">
-                        <a href="#" id="divLoginBtnCancelar" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-icon-delete ui-btn-b" data-transition="flow">Cancelar</a>
-                        <a href="#" id="divLoginBtnLogar" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a ui-icon-check ui-btn-icon-left">Logar</a>
+                        <a href="#" id="divLoginBtnCancelar" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-icon-delete ui-btn-a" data-transition="flow">Cancelar</a>
+                        <a href="#" id="divLoginBtnLogar" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-left">Logar</a>
 
                     </form>
                 </div>
             </div>
             <!-- Login -->
 
+
+            <!-- Popup de mensagens -->
+            <div data-role="popup" id="divAlert" class="ui-content" style="max-width:600px;" data-dismissible="false" data-overlay-theme="a" >
+                <a href="#" id="divAlertBtnCloseMessage" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <p id="divAlertMessage">.</p>
+            </div>
+            <!-- Popup de mensagens -->
             
-            <!-- Cabeçalho -->
-            <div data-role="header" data-position="fixed" data-theme="a" id="page1header">
+            <!-- Cabeçalho data-position="fixed" -->
+            <div data-role="header" data-theme="a" id="page1header">
                 <h1>CDE - Mobile</h1>
                 <a href="#panelMenu" data-icon="bars" data-iconpos="notext" id="btnMenu">Menu</a>
                 <a href="#nada" data-icon="home" data-iconpos="notext" id="btnHome">Home</a>

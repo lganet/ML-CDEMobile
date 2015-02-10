@@ -8,6 +8,12 @@
     $("#btnCancelarConfiguracao").click(function (e) {
         CancelarConfiguracao();
     });
+
+    function DesabilitarSalvar(){
+        console.log('DesabilitarSalvar');
+        $('#btnSalvarConfiguracao').addClass('ui-disabled');
+    }
+
 </script>
 
 <div data-role="navbar">

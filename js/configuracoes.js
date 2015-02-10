@@ -4,13 +4,17 @@ var cdeConfiguracoesObj;
 
 $(CONTEUDO.CORPO.idJQ).on("ViewLoaded", function (event, view, pagina) {
     AbrirView(VISOES.RODAPE_CONFIGURACOES, CONTEUDO.RODAPE);
+});
+
+$(CONTEUDO.RODAPE.idJQ).on("ViewLoaded", function (event, view, pagina) {
+    console.log('RODAPE abriu')
     CarregarConfiguracaoes();
 });
 
 // Chamado pelo evento click da view configuracoesRodape
 function SalvarConfiguracao() {
     
-    if (cdeConfiguracoesObj === undefined)
+    if (cdeConfiguracoesObj === undefined )
         cdeConfiguracoesObj = {};
     
     cdeConfiguracoesObj.Nome = $("#Nome").val();
@@ -31,14 +35,15 @@ function SalvarConfiguracao() {
                         Persistencia.gravarDados(TABELAS.CONFIGURACOES, cdeConfiguracoesObj);
                         //window.localStorage.setItem(TABELAS.CONFIGURACOES, cdeConfiguracoes);
                         ExibirMensagem('Configurações salvo com sucesso.');
+                        CarregarConfiguracaoes();
                     });
                 }
 
-            },
+            },/*
             funcaoUsuarioInvalido: function(){
                 //Quando usuário é inválido, irei deixar o usuário tentar novamente.
                 ExibirMensagem('Usuário/Senha estão inválidos, necessário informar um usuário com acesso no CDE.');
-            },
+            },*/
             funcaoCancelar: function(){
                 console.log("cancelou");
                 //Quando usuário cancela a opção de usuário.
@@ -62,41 +67,76 @@ function SolicitarAcessoUsuario(cdeConfiguracoes, funcaoSucesso){
         SistemaOperacional: informacoesAparelho.SistemaOperacional + ' - Versão: ' + informacoesAparelho.Versao
     };
 
-    var urlLogin = MontarUrlServicoCDE("Usuario");
-
+    var erro = false;
+    var controllerName = "Usuario";
+    var urlLogin = MontarUrlServicoCDE(controllerName);
+   
     $.ajax({
         url: urlLogin,
         dataType: "json",
         type: 'POST',
         data: dados,
         statusCode: {
-            // 200 e 201 não vou validar pois o mesmo irá cair no sucesso.
-            401: function(response) {
-                 if (response &&  response.responseJSON && response.responseJSON.Message){
-                    ExibirMensagem(JSON.parse(response.responseJSON.Message).Mensagem + '<br/>Não será possível concluir o cadastro.');
+            102: function(){
+                console.log('102');
+            },
+            200: function(dataResult){
+                console.log('200');
+                cdeConfiguracoes.PossuiCadastro = true;
+                if (funcaoSucesso)
+                    funcaoSucesso();
+            },
+            400: function(jqXHR, textStatus, errorThrown) {
+                console.log('400');
+                erro = true;
+                var mensagem = '';
+                if (jQuery.isPlainObject(jqXHR.responseJSON)){
+                     mensagem = jqXHR.responseJSON.Mensagem;    
+                }else{
+                     mensagem = JSON.parse(jqXHR.responseJSON.Message).Mensagem;   
+                }  
+                ExibirMensagem(mensagem + '<br/>Não será possível concluir o cadastro.');
+
+            },
+            401: function(jqXHR) {
+                erro = true;
+                console.log('401');
+
+                var mensagem = '';
+                if (jQuery.isPlainObject(jqXHR.responseJSON)){
+                     mensagem = jqXHR.responseJSON.Mensagem;    
+                }else{
+                     mensagem = JSON.parse(jqXHR.responseJSON.Message).Mensagem;   
+                }  
+                ExibirMensagem(mensagem + '<br/>Não será possível concluir o cadastro.');
+
+            },
+
+            404: function(jqXHR, textStatus, errorThrown) {
+                console.log('404');
+                erro = true;
+                ExibirMensagem('Verifique o servidor de API do CDE.<br/> A mesma se encontra inacessível: ' + CONFIGURACOES.URLServico + controllerName); 
+            },
+            500: function(jqXHR, textStatus, errorThrown) {
+                console.log('500');
+                // Inesperado.
+                erro = true;
+                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.ExceptionMessage){
+                    ExibirMensagem(jqXHR.responseJSON.ExceptionMessage);
                 }
-            },
-            400: function(response) {
-                if (response &&  response.responseJSON && response.responseJSON.Message){
-                    ExibirMensagem(JSON.parse(response.responseJSON.Message).Mensagem + '<br/>Não será possível concluir o cadastro.');
-                }
-            },
-            404: function(err) {
-               ExibirMensagem('Verifique o servidor de API do CDE.<br/> A mesma se encontra inacessível: ' + urlLogin); 
-            },
-            500: function(response) {
-                alert(response);
-                ExibirMensagem('Aconteceu um erro não tratado pelo sistema, procure pelo suporte para ajuda.'); 
+
             }
 
-        }, 
-        success : function(dataResult){               
-            cdeConfiguracoes.PossuiCadastro = true;
-            if (funcaoSucesso)
-                funcaoSucesso();
+
         },
-        fail : function(){
-            alert('Fail');
+        complete: function(jqXHR, textStatus ){
+            console.log('complete');
+            if (textStatus && !erro && ErrosRetornoAjax[textStatus]){
+                console.log(ErrosRetornoAjax[textStatus]);
+                ExecutarFuncao(function(){
+                    ExibirMensagem(ErrosRetornoAjax[textStatus]);
+                });
+            }
         }
     });
 }
@@ -109,12 +149,20 @@ function CancelarConfiguracao() {
 function CarregarConfiguracaoes() {
     cdeConfiguracoesObj = Persistencia.pegarDados(TABELAS.CONFIGURACOES);
     
-    if (cdeConfiguracoesObj !== undefined) {
+    if (cdeConfiguracoesObj !== undefined && cdeConfiguracoesObj !== null) {
+        $('#divInformacoesUsuario').show();
         $('#UserCDE').textinput('disable');
-        $("#Nome").val(cdeConfiguracoesObj.Nome);
         $("#UserCDE").val(cdeConfiguracoesObj.UserCDE);
-        $("#Filial").val(cdeConfiguracoesObj.Filial);
-        $("#EhAparelhoProprio").val(cdeConfiguracoesObj.EhAparelhoProprio).slider("refresh");
+        $('#infoFilial').text(cdeConfiguracoesObj.Filial);
+        $('#infoNome').text(cdeConfiguracoesObj.Nome);
+        $('#infoEmail').text(cdeConfiguracoesObj.email);
+        $('#infoCidade').text(cdeConfiguracoesObj.filialCidade);
+        $('#infoRegiao').text(cdeConfiguracoesObj.regiaoCod);
+        $('#infoAcessoLiberado').text(ConverterSimNao(cdeConfiguracoesObj.PossuiAcesso));
+        //Desabilito o botão salvar e verifico a permissão
+        DesabilitarSalvar();
+        if (! cdeConfiguracoesObj.PossuiAcesso)
+            $('#btnMenuValidarAcesso').show();
     }
 }
 

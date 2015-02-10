@@ -19,11 +19,19 @@ var TABELAS =
 	CONFIGURACOES: "cdeConfiguracoes"
 };
 
+// -- Erros não capturados pelos códigos de retorno.
+var ErrosRetornoAjax = {};
+ErrosRetornoAjax['error'] = 'Error - Ocorreru um erro não tratado pelo sistema, se o mesmo persistir contacte o suporte.';
+ErrosRetornoAjax['timeout'] = 'Timeout - Ocorreru um erro não tratado pelo sistema, se o mesmo persistir contacte o suporte.';
+ErrosRetornoAjax['abort'] = 'Abort - Ocorreru um erro não tratado pelo sistema, se o mesmo persistir contacte o suporte.';
+ErrosRetornoAjax['parsererror'] = 'ParserError - Ocorreru um erro não tratado pelo sistema, se o mesmo persistir contacte o suporte.';
+// -- Erros não capturados pelos códigos de retorno.
 
 // Ambiente DEV Local
 var CONFIGURACOES = 
 {
 	URLServico: "http://192.168.31.18:61203/api/"
+    //URLServico: "http://localhost:61203/api/"
 };
 
 /*

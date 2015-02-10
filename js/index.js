@@ -1,3 +1,5 @@
+var countAjaxLoading = 0; // Contador e controle para as submissões ajax.
+
 function scan() {
     console.log('scanning');
 
@@ -139,7 +141,7 @@ function ProcurarProduto(codigoBarra) {
         if (data) {
             $("#txtDescricaoProduto").val(data.Produto.Descricao + ' ' + data.Cor.Descricao + ' ' + data.Especificacao.Descricao);
         } else {
-            alert("Produto n�o encontrado.");
+            alert("Produto não encontrado.");
         }
 
     }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -157,28 +159,37 @@ $(document).on("deviceready", function(){
     var model = device.model;
     console.log(model);
   }, "Modelo33333:");*/
-
+  
 });
-
-
 
 $(document).on("pageinit", "#page1", function (event) {
-    
-  $(document).bind("ajaxSend", function () {
-    ExibirLoading('a', 'Carregando...');
-      
-  }).bind("ajaxComplete", function () {
-    EsconderLoading();
-  }).bind("ajaxError", function (data) {
-    EsconderLoading();
-  });
-
-
-  $("#btnConfiguracao").on("click", function () { ChamarConfiguracaoes(); });
-  $("#btnHome").on("click", function () { AbrirPrincipal(); });
-  AbrirPrincipal();
+  Inicializar();    
+  //Persistencia.removerDados(TABELAS.CONFIGURACOES);
 });
 
+function Inicializar(){
+  $(document).on("ajaxSend", function () {
+    //if (countAjaxLoading === 0)
+      ExibirLoading('a', 'Carregando...');
+    countAjaxLoading++;
+  }).on("ajaxComplete", function () {
+    //if (countAjaxLoading <= 1)
+      EsconderLoading();
+    countAjaxLoading--;
+  }).on("ajaxError", function () {
+    EsconderLoading();
+    countAjaxLoading = 0;
+  });
+
+  $("#btnMenuConfiguracao").on("click", function () { ChamarConfiguracaoes(); });
+  $("#btnHome").on("click", function () { AbrirPrincipal(); });
+  $('#btnMenuValidarAcesso').on("click", function() { ValidarLiberacao() });
+  AbrirPrincipal();
+}
+
+function ValidarBotoes(){
+  // Validando se já foi preenchido as configurações e se a mesma está ok.
+}
 
 function AbrirPrincipal() {
   AbrirView(VISOES.PRINCIPAL);

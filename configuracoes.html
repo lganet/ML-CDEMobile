@@ -2,14 +2,22 @@
 
 <script type="text/javascript" src="js/configuracoes.js"></script>
 
+<style type="text/css">      
+
+.ui-block-b{
+    word-break: break-all;
+    text-size
+}
+</style>
+
 <form id="frmFormulario">
-    
+<!--    
     <label for="txtNome">Nome:</label>
     <input type="text" name="Nome" id="Nome" value="" disabled placeholder="Nome">
-
+-->
     <label for="UserCDE">Usuário CDE:</label>
     <input type="text" name="UserCDE" id="UserCDE" value="" placeholder="Usuário no CDE">
-
+<!--
     <label for="Filial">Filial:</label>
     <input type="number" name="Filial" id="Filial" value="" placeholder="Filial">
 
@@ -18,6 +26,29 @@
         <option value="false">Não</option>
         <option value="true">Sim</option>
     </select>
-
+-->
 </form>
+
+<div id="divInformacoesUsuario" data-role="collapsible" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" style="display:none;">
+    <h3 class="ui-bar ui-bar-a ui-corner-all">Dados Usuário</h3>
+    
+        <div class="ui-grid-a">
+            <div class="ui-block-a" style="padding-top:5px;"><b>Filial</b></div>
+            <div class="ui-block-b" id="infoFilial"></div>
+            <div class="ui-block-a" style="padding-top:5px;"><b>Nome</b></div>
+            <div class="ui-block-b" id="infoNome"></div>
+            <div class="ui-block-a" style="padding-top:5px;"><b>E-mail</b></div>
+            <div class="ui-block-b" id="infoEmail"></div>
+            <div class="ui-block-a" style="padding-top:5px;"><b>Cidade Filial</b></div>
+            <div class="ui-block-b" id="infoCidade"></div>
+            <div class="ui-block-a" style="padding-top:5px;"><b>Código Região</b></div>
+            <div class="ui-block-b" id="infoRegiao"></div>
+            <div class="ui-block-a" style="padding-top:5px;"><b>Acesso Liberado</b></div>
+            <div class="ui-block-b" id="infoAcessoLiberado"></div>
+        </div>
+    
+</div>
+
+
+
 <!-- Configurações -->  

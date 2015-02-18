@@ -1,6 +1,23 @@
 var countAjaxLoading = 0; // Contador e controle para as submissões ajax.
 
-function scan() {
+
+function scanMoc(funcaoSucessoLeitura, funcaoCancelamento) {
+    console.log('scanning');
+
+    var codigo = prompt("Informe o código de Barras", "2028266519768");
+    
+    if (codigo){
+      if (funcaoSucessoLeitura)
+        funcaoSucessoLeitura({text: codigo, format:'ean13', cancelled: false});
+    }else{
+      if (funcaoCancelamento)
+        funcaoCancelamento();
+    }
+
+}
+
+
+function scan(funcaoSucessoLeitura, funcaoCancelamento) {
     console.log('scanning');
 
     try {
@@ -8,15 +25,8 @@ function scan() {
 
         scanner.scan(function (result) {
 
-            navigator.vibrate([1000, 1000, 3000, 1000, 5000]);
-
-            //alert("We got a barcode\n" + 
-            //    "Result: " + result.text + "\n" + 
-            //    "Format: " + result.format + "\n" + 
-            //    "Cancelled: " + result.cancelled);  
-
             $("#txtCodigoLido").val(result.text);
-            ProcurarProduto(result.text);
+            //ProcurarProduto(result.text);
 
             console.log("Scanner result: \n" +
                  "text: " + result.text + "\n" +
@@ -24,6 +34,10 @@ function scan() {
                  "cancelled: " + result.cancelled + "\n");
 
             console.log(result);
+
+            if (funcaoSucessoLeitura)
+              funcaoSucessoLeitura(result);
+
             /*
             if (args.format == "QR_CODE") {
                 window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
@@ -32,10 +46,12 @@ function scan() {
 
         }, function (error) {
             console.log("Scanning failed: ", error);
+            if (funcaoCancelamento)
+              funcaoCancelamento();
         });
     }
     catch (err) {
-        console.log(err);
+        console.log(err.message);
     }
 }
 
@@ -164,8 +180,13 @@ $(document).on("deviceready", function(){
 
 $(document).on("pageinit", "#page1", function (event) {
   Inicializar();    
-  //Persistencia.removerDados(TABELAS.CONFIGURACOES);
+  //ExcluirTodasTabelas();
 });
+
+function ExcluirTodasTabelas(){
+  Persistencia.removerDados(TABELAS.CONFIGURACOES);
+  Persistencia.removerDados(TABELAS.CONTAGEM_CDE);
+}
 
 function Inicializar(){
   $(document).on("ajaxSend", function () {
@@ -182,6 +203,7 @@ function Inicializar(){
   });
 
   $("#btnMenuConfiguracao").on("click", function () { ChamarConfiguracaoes(); });
+  $("#btnMenuContagemCDE").on("click", function () { IniciarContagemCDE(); });
   $("#btnHome").on("click", function () { AbrirPrincipal(); });
   $('#btnMenuValidarAcesso').on("click", function() { ValidarLiberacao() });
   AbrirPrincipal();
@@ -196,7 +218,11 @@ function AbrirPrincipal() {
 }
 
 function ChamarConfiguracaoes() {
-    AbrirView(VISOES.CONFIGURACAO);
+  AbrirView(VISOES.CONFIGURACAO);
+}
+
+function IniciarContagemCDE(){
+  AbrirView(VISOES.INICIO_CONTAGEM); 
 }
 
 //function AbrirMenu(e) {

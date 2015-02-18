@@ -3,7 +3,7 @@ debugger;
 var cdeConfiguracoesObj;
 
 $(CONTEUDO.CORPO.idJQ).on("ViewLoaded", function (event, view, pagina) {
-    AbrirView(VISOES.RODAPE_CONFIGURACOES, CONTEUDO.RODAPE);
+    //AbrirView(VISOES.RODAPE_CONFIGURACOES, CONTEUDO.RODAPE);
 });
 
 $(CONTEUDO.RODAPE.idJQ).on("ViewLoaded", function (event, view, pagina) {
@@ -17,33 +17,31 @@ function SalvarConfiguracao() {
     if (cdeConfiguracoesObj === undefined )
         cdeConfiguracoesObj = {};
     
-    cdeConfiguracoesObj.Nome = $("#Nome").val();
+    //cdeConfiguracoesObj.Nome = $("#Nome").val();
     cdeConfiguracoesObj.UserCDE = $("#UserCDE").val();
-    cdeConfiguracoesObj.Filial = $("#Filial").val();
-    cdeConfiguracoesObj.EhAparelhoProprio = $("#EhAparelhoProprio").val();
+    //cdeConfiguracoesObj.Filial = $("#Filial").val();
+    //cdeConfiguracoesObj.EhAparelhoProprio = $("#EhAparelhoProprio").val();
     ExecutarFuncao(function(){
         Logar(
             {
             usuario: cdeConfiguracoesObj.UserCDE,
             funcaoUsuarioValido: function(senha){
 
-                if (! cdeConfiguracoesObj.PossuiCadastro){
-                    cdeConfiguracoesObj.Senha = senha;
-                    
-                    SolicitarAcessoUsuario(cdeConfiguracoesObj, function(){
-                        //Quando usuário é válido, irei gravas as informações no smartphone.
-                        Persistencia.gravarDados(TABELAS.CONFIGURACOES, cdeConfiguracoesObj);
-                        //window.localStorage.setItem(TABELAS.CONFIGURACOES, cdeConfiguracoes);
-                        ExibirMensagem('Configurações salvo com sucesso.');
-                        CarregarConfiguracaoes();
-                    });
-                }
+                window.setTimeout(function () { 
+                    if (! cdeConfiguracoesObj.PossuiCadastro){
+                        //cdeConfiguracoesObj.Senha = senha;
+                        
+                            SolicitarAcessoUsuario(cdeConfiguracoesObj, senha, function(){
+                                //Quando usuário é válido, irei gravas as informações no smartphone.
+                                Persistencia.gravarDados(TABELAS.CONFIGURACOES, cdeConfiguracoesObj);
+                                //window.localStorage.setItem(TABELAS.CONFIGURACOES, cdeConfiguracoes);
+                                ExibirMensagem('Configurações salvo com sucesso.');
+                                CarregarConfiguracaoes();
+                            });
+                    }
+                }, 50);
 
-            },/*
-            funcaoUsuarioInvalido: function(){
-                //Quando usuário é inválido, irei deixar o usuário tentar novamente.
-                ExibirMensagem('Usuário/Senha estão inválidos, necessário informar um usuário com acesso no CDE.');
-            },*/
+            },
             funcaoCancelar: function(){
                 console.log("cancelou");
                 //Quando usuário cancela a opção de usuário.
@@ -55,90 +53,52 @@ function SalvarConfiguracao() {
     }, "Chamou Logar");
 }
 
-function SolicitarAcessoUsuario(cdeConfiguracoes, funcaoSucesso){
+function SolicitarAcessoUsuario(cdeConfiguracoes, senha, funcaoSucesso){
 
     var dados = {
         IdUser: cdeConfiguracoes.UserCDE,
-        Senha: cdeConfiguracoes.Senha,
+        Senha: senha,
         Codfil: cdeConfiguracoes.Filial,
-        AparelhoProprio: cdeConfiguracoes.EhAparelhoProprio,
+        //AparelhoProprio: cdeConfiguracoes.EhAparelhoProprio,
         DeviceId: informacoesAparelho.NumeroSerie,
         DeviceName: informacoesAparelho.Modelo,
         SistemaOperacional: informacoesAparelho.SistemaOperacional + ' - Versão: ' + informacoesAparelho.Versao
     };
 
-    var erro = false;
+/*    var erro = false;
     var controllerName = "Usuario";
-    var urlLogin = MontarUrlServicoCDE(controllerName);
+    var urlLogin = MontarUrlServicoCDE(controllerName);*/
    
-    $.ajax({
-        url: urlLogin,
-        dataType: "json",
-        type: 'POST',
-        data: dados,
-        statusCode: {
-            102: function(){
-                console.log('102');
-            },
-            200: function(dataResult){
-                console.log('200');
+
+    ChamarApi(
+        {
+            nomeDoControle: "Usuario",
+            tipo: TipoAjax.Post,
+            dados: dados,
+            funcao200: function(dataResult){
                 cdeConfiguracoes.PossuiCadastro = true;
+                cdeConfiguracoes.CodigoCadastro = dataResult.ObjDados.Codigo;
                 if (funcaoSucesso)
                     funcaoSucesso();
             },
-            400: function(jqXHR, textStatus, errorThrown) {
-                console.log('400');
-                erro = true;
-                var mensagem = '';
-                if (jQuery.isPlainObject(jqXHR.responseJSON)){
-                     mensagem = jqXHR.responseJSON.Mensagem;    
-                }else{
-                     mensagem = JSON.parse(jqXHR.responseJSON.Message).Mensagem;   
-                }  
-                ExibirMensagem(mensagem + '<br/>Não será possível concluir o cadastro.');
-
+            funcao400: function(jqXHR, textStatus, errorThrown){
+                ExibirErroNoMomentoVerificarCadastro(jqXHR);
             },
-            401: function(jqXHR) {
-                erro = true;
-                console.log('401');
-
-                var mensagem = '';
-                if (jQuery.isPlainObject(jqXHR.responseJSON)){
-                     mensagem = jqXHR.responseJSON.Mensagem;    
-                }else{
-                     mensagem = JSON.parse(jqXHR.responseJSON.Message).Mensagem;   
-                }  
-                ExibirMensagem(mensagem + '<br/>Não será possível concluir o cadastro.');
-
-            },
-
-            404: function(jqXHR, textStatus, errorThrown) {
-                console.log('404');
-                erro = true;
-                ExibirMensagem('Verifique o servidor de API do CDE.<br/> A mesma se encontra inacessível: ' + CONFIGURACOES.URLServico + controllerName); 
-            },
-            500: function(jqXHR, textStatus, errorThrown) {
-                console.log('500');
-                // Inesperado.
-                erro = true;
-                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.ExceptionMessage){
-                    ExibirMensagem(jqXHR.responseJSON.ExceptionMessage);
-                }
-
-            }
-
-
-        },
-        complete: function(jqXHR, textStatus ){
-            console.log('complete');
-            if (textStatus && !erro && ErrosRetornoAjax[textStatus]){
-                console.log(ErrosRetornoAjax[textStatus]);
-                ExecutarFuncao(function(){
-                    ExibirMensagem(ErrosRetornoAjax[textStatus]);
-                });
+            funcao401: function(jqXHR, textStatus, errorThrown){
+                ExibirErroNoMomentoVerificarCadastro(jqXHR);
             }
         }
-    });
+    );
+}
+
+function ExibirErroNoMomentoVerificarCadastro(jqXHR){
+    var mensagem = '';
+    if (jQuery.isPlainObject(jqXHR.responseJSON)){
+        mensagem = jqXHR.responseJSON.Mensagem;    
+    }else{
+        mensagem = JSON.parse(jqXHR.responseJSON.Message).Mensagem;   
+    }  
+    ExibirMensagem(mensagem + '<br/>Não será possível concluir o cadastro.');
 }
 
 // Chamado pelo evento click da view configuracoesRodape

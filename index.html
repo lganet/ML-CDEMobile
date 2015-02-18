@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
     Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
 
@@ -29,9 +29,16 @@
         
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryMobile/jquery.mobile-1.4.5.css" />
+        
+        <!-- Plugins -->
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="barcodescanner.js"></script>
         <script type="text/javascript" charset="utf-8" src="SQLitePlugin.js"></script>
+        <!-- Plugins -->
+
+        <script type="text/javascript" src="js/moment/moment.min.js"></script>
+
+
         <script type="text/javascript" src="js/jqueryMobile/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery.mobile-1.4.5.js"></script>
         
@@ -86,9 +93,13 @@
 
                 <div class="ui-panel-inner">
                     <h3>Opções</h3>                                     
-                    <a href="#" id="btnMenuContagem" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-edit ui-btn-icon-left ui-disabled" style="text-align: left;">Iniciar Contagem CDE</a>
+                    
+                    <a href="#" id="btnMenuContagemCDE" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-edit ui-btn-icon-left ui-disabled" style="text-align: left;">Iniciar Contagem CDE</a>
+
                     <a href="#" id="btnMenuConfiguracao" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-gear ui-btn-icon-left" style="text-align: left;">Configurações</a>
+                    
                     <a href="#" id="btnMenuValidarAcesso" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-eye ui-btn-icon-left" style="text-align: left;display:none;">Validar Acesso</a>
+
                 </div>
             </div>
             <!-- Menu da Esquerda -->
@@ -115,6 +126,13 @@
             </div>
             <!-- Login -->
 
+            <!-- Popup da tela inicial de contagem Leitora + Manual -->
+            <div data-role="popup" id="inicioDeContagem" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
+                <div role="main" class="ui-content">
+                    <a id="btnIniciarContagemLeitoraManual" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Iniciar Contagem</a>
+                </div>
+            </div>
+            <!-- Popup da tela inicial de contagem Leitora + Manual -->
 
             <!-- Popup de mensagens -->
             <div data-role="popup" id="divAlert" class="ui-content" style="max-width:600px;" data-dismissible="false" data-overlay-theme="a" >

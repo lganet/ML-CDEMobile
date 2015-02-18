@@ -1,10 +1,32 @@
 ﻿
 <script type="text/javascript" src="js/principal.js"></script>
+
+<style type="text/css">
+
+    .labelDestaque{
+        font-weight: bold;
+    }
+
+</style>
         
 <div class="ui-grid-a ui-responsive ui-corner-all">
-    <div class="ui-block-solo" style="background-image: url(/img/logoML.jpg); background-size:100% auto; background-repeat: no-repeat; background-attachment: fixed;background-position: top;"><br /><br /><br /><br /><br /><br /></div>
+    <div class="ui-block-solo" style="background-image: url(img/logoML.jpg); background-size:100% auto; background-repeat: no-repeat; background-attachment: fixed;background-position: top;"><br /><br /><br /><br /><br /><br /></div>
 </div>
-              
+
+<div id="contagemNaoFinalizada" style="display:none;" >
+    
+    <h4 style="color: #3399FF;">Contagem Iniciada</h4>
+    
+    <p style="text-align:left;">
+        Existe a solicitação de número <span id="lblNumeroSolicitacao" class="labelDestaque"></span> com a contagem iniciada <span id="lblDataInicioContagem" class="labelDestaque"></span>.
+    </p>
+    <br/>
+    <a id="btnIniciarProcessoDeContarCDE" class="ui-btn ui-corner-all ui-shadow ui-icon-grid ui-btn-icon-left ui-btn-a" data-transition="pop">
+        Voltar a Contar
+    </a>
+</div>
+
+<!--              
 <a href="#popupContagemCDE" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-icon-check ui-btn-icon-left ui-btn-a" data-transition="pop">
     Iniciar Contagem CDE
 </a>
@@ -12,7 +34,7 @@
 <a onclick="Logarr();" class="ui-btn ui-corner-all ui-shadow ui-icon-check ui-btn-icon-left ui-btn-a" data-transition="pop">
     Exbir alerta
 </a>
-               
+-->
 
 <!--
 <img id="picTeste" width="300px" heigth="300px"></img>

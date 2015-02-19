@@ -391,6 +391,7 @@ function ExibirMensagem(mensagem, funcaoClose){
     var funcaoExecutar;
     
     $("#divAlert").on("popupafteropen", function( event, ui ) {
+        $("#divAlert").off("popupafteropen");
         $('#divAlert').trigger('create');
     });
 
@@ -398,17 +399,18 @@ function ExibirMensagem(mensagem, funcaoClose){
         console.log('fecho');
         $("#divAlert").off("popupafterclose");
         if (funcaoExecutar)
-            funcaoExecutar();
+           window.setTimeout(function () { funcaoExecutar(); }, 50);
     });
 
 
     $("#divAlert #divAlertMessage").html(mensagem);
     window.setTimeout(function () { $("#divAlert").popup( "open" ); }, 50);
 
-    $("#divAlertBtnCloseMessage").click(function (e){
-        $("#divAlert").popup( "close" );
+    $("#divAlertBtnCloseMessage").on('click', function (e){
         if (funcaoClose)
             funcaoExecutar = funcaoClose;
+        $("#divAlert").popup( "close" );
+        $("#divAlertBtnCloseMessage").off('click');
     });
 }
 
@@ -523,6 +525,7 @@ function ValidarLiberacao(){
         }
     }
     else{
+        $('#btnMenuContagemCDE').addClass('ui-disabled');
         return false;
     }
 

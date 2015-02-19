@@ -56,17 +56,17 @@ ErrosRetornoAjax['parsererror'] = 'ParserError - Ocorreru um erro não tratado p
 
 //-----------------------------------------------------------------------------------------------------------------------
 // Ambiente DEV Local
+/*
 var CONFIGURACOES = 
 {
 	URLServico: "http://192.168.31.18:61203/api/"
     //URLServico: "http://localhost:61203/api/"
 };
+*/
 
-/*
 //Ambiente DEV Servidor
 var CONFIGURACOES = 
 {
 	URLServico: "http://10.30.0.83/CDEMobile/api/"
 };
-*/
 //-----------------------------------------------------------------------------------------------------------------------

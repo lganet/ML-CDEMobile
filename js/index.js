@@ -1,7 +1,7 @@
 var countAjaxLoading = 0; // Contador e controle para as submissões ajax.
 
 
-function scanMoc(funcaoSucessoLeitura, funcaoCancelamento) {
+function scanMoc(funcaoSucessoLeitura, funcaoErro) {
     console.log('scanning');
 
     var codigo = prompt("Informe o código de Barras", "2028266519768");
@@ -10,14 +10,13 @@ function scanMoc(funcaoSucessoLeitura, funcaoCancelamento) {
       if (funcaoSucessoLeitura)
         funcaoSucessoLeitura({text: codigo, format:'ean13', cancelled: false});
     }else{
-      if (funcaoCancelamento)
-        funcaoCancelamento();
+      funcaoSucessoLeitura({text: '', format:'ean13', cancelled: true});
     }
 
 }
 
 
-function scan(funcaoSucessoLeitura, funcaoCancelamento) {
+function scan(funcaoSucessoLeitura, funcaoErro) {
     console.log('scanning');
 
     try {
@@ -25,7 +24,7 @@ function scan(funcaoSucessoLeitura, funcaoCancelamento) {
 
         scanner.scan(function (result) {
 
-            $("#txtCodigoLido").val(result.text);
+            //$("#txtCodigoLido").val(result.text);
             //ProcurarProduto(result.text);
 
             console.log("Scanner result: \n" +
@@ -46,12 +45,14 @@ function scan(funcaoSucessoLeitura, funcaoCancelamento) {
 
         }, function (error) {
             console.log("Scanning failed: ", error);
-            if (funcaoCancelamento)
-              funcaoCancelamento();
+            if (funcaoErro)
+              funcaoErro(error);
         });
     }
     catch (err) {
-        console.log(err.message);
+      console.log(err.message);
+      if (funcaoErro)
+        funcaoErro(err.message);
     }
 }
 
@@ -180,12 +181,14 @@ $(document).on("deviceready", function(){
 
 $(document).on("pageinit", "#page1", function (event) {
   Inicializar();    
+  PNotify.prototype.options.styling = "jqueryui";
   //ExcluirTodasTabelas();
 });
 
 function ExcluirTodasTabelas(){
   Persistencia.removerDados(TABELAS.CONFIGURACOES);
   Persistencia.removerDados(TABELAS.CONTAGEM_CDE);
+  Persistencia.removerDados(TABELAS.CONTAGEM_CDE_CONFIGURACAO);
 }
 
 function Inicializar(){
@@ -206,7 +209,16 @@ function Inicializar(){
   $("#btnMenuContagemCDE").on("click", function () { IniciarContagemCDE(); });
   $("#btnHome").on("click", function () { AbrirPrincipal(); });
   $('#btnMenuValidarAcesso').on("click", function() { ValidarLiberacao() });
+  $('#btnRedefinir').on("click", function() { RedefinirInformacoes() });
   AbrirPrincipal();
+}
+
+function RedefinirInformacoes(){
+  if(confirm('Gostaria de reinicar as configurações do sistema.\nCaso continue todas as informações serão apagadas.')){
+    ExcluirTodasTabelas();
+    app.jaValidouAcessoNoInicio = false;
+    AbrirPrincipal();
+  }
 }
 
 function ValidarBotoes(){

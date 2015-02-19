@@ -29,7 +29,9 @@
         
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryMobile/jquery.mobile-1.4.5.css" />
-        
+        <link rel="stylesheet" type="text/css" href="css/simpleDialog/simpleDialog.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/pnotify/pnotify.custom.min.css" media="all"  />
+                
         <!-- Plugins -->
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="barcodescanner.js"></script>
@@ -41,6 +43,8 @@
 
         <script type="text/javascript" src="js/jqueryMobile/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jqueryMobile/jquery.mobile-1.4.5.js"></script>
+        <script type="text/javascript" src="js/simpleDialog/simpleDialog.min.js"></script>
+        <script type="text/javascript" src="js/pnotify/pnotify.custom.min.js"></script>
         
         <script type="text/javascript" src="js/config.js"></script>
         <!--<script type="text/javascript" src="js/iscroll.js"></script>-->
@@ -77,6 +81,11 @@
             }
             /* Responsável por aplicar Background em toda a tela q está sendo carregada. */
 
+            .scrollable {
+                overflow-y: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+
         </style>
 
         <title>Leitor de Código de Barras</title>
@@ -100,10 +109,23 @@
                     
                     <a href="#" id="btnMenuValidarAcesso" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-eye ui-btn-icon-left" style="text-align: left;display:none;">Validar Acesso</a>
 
+                    <br/><br/><br/><br/>
+
+                    <a href="#" id="btnRedefinir" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-recycle ui-btn-icon-left" style="text-align: left;">Redifinir</a>
+
                 </div>
             </div>
             <!-- Menu da Esquerda -->
             
+            <div id="divConfirmDialog" data-role="dialog" data-title="Are you sure?">
+              <div data-role="content">
+                <h3 class="sure-1">???</h3>
+                <p class="sure-2">???</p>
+                <a href="#" class="sure-do" data-role="button" data-theme="b" data-rel="back">Yes</a>
+                <a href="#" data-role="button" data-theme="c" data-rel="back">No</a>
+              </div>
+            </div>
+
             <!-- Login -->
             <div data-role="popup" id="divLogin" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
 
@@ -151,7 +173,7 @@
             
             <!-- Corpo -->
             <!-- AS VIEWS SÂO INJETADAS DENTRO DA VIEW CONTENT -->
-            <div class="ui-content" data-role="content" data-theme="a" id="page1Content">
+            <div class="ui-content scrollable" data-role="content" data-theme="a" id="page1Content">
                 
             </div>
             <!-- AS VIEWS SÂO INJETADAS DENTRO DA VIEW CONTENT -->

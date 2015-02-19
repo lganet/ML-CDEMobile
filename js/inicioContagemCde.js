@@ -9,9 +9,10 @@ $(CONTEUDO.CORPO.idJQ).on("ViewLoaded", function (event, view, pagina) {
 
     $('#btnIniciarProcessoDeContarCDE').on('click', function(){ BuscarProdutosLista(); });
     console.log('PesquisarProcessoDeContagemCDE');
-    //window.setTimeout(function () { PesquisarProcessoDeContagemCDE();}, 50);
+    
     if (listaObj === undefined){
-        PesquisarProcessoDeContagemCDE(); 
+        //PesquisarProcessoDeContagemCDE(); 
+        window.setTimeout(function () { PesquisarProcessoDeContagemCDE();}, 50);
     }else{
         //window.setTimeout(function () { AbrirView(VISOES.MODULOS_CONTAGEM); }, 50);
         AbrirView(VISOES.MODULOS_CONTAGEM);

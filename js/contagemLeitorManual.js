@@ -154,6 +154,8 @@ function MostrarNotificacao(mensagem) {
         width: "150px",
         animation: "slide",
         delay: 2000,
+        remove: true,
+        addclass: "success",
         stack: stack_bottomright
     };
     
